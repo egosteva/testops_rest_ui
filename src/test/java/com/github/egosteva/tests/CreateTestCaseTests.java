@@ -164,4 +164,49 @@ public class CreateTestCaseTests {
             $(".TestCaseLayout__name").shouldHave(text(testCaseName));
         });
     }
+
+    @Test
+    void createWitApiAndUiExtendedTest() {
+        Faker faker = new Faker();
+        String testCaseName = faker.name().fullName();
+        step("Authorize");
+
+        CreateTestCaseBody testCaseBody = new CreateTestCaseBody();
+        testCaseBody.setName(testCaseName);
+
+        CreateTestCaseResponse createTestCaseResponse = step("Create testcase", () ->
+                        given()
+                                .log().all()
+                                .header("X-XSRF-TOKEN", "f6cce772-d46f-4b79-b9bf-9c598bb4cbce")
+                                .cookies("XSRF-TOKEN", "f6cce772-d46f-4b79-b9bf-9c598bb4cbce",
+                                        "ALLURE_TESTOPS_SESSION", "6f3e0152-f44f-4ea1-8b6c-e0d9b3c3c905")
+                                .contentType("application/json;charset=UTF-8")
+                                .body(testCaseBody)
+                                .queryParam("projectId", projectId)
+                                .when()
+                                .post("/api/rs/testcasetree/leaf")
+                                .then()
+                                .log().status()
+                                .log().body()
+                                .statusCode(200)
+                                .extract().as(CreateTestCaseResponse.class)
+                //         .body("statusName", is("Draft"))
+                //          .body("name", is(testCaseName));
+        );
+
+        step("Check test case name", () -> {
+            open("/favicon.ico");
+            //            assertThat(createTestCaseResponse.getName()).isEqualTo(testCaseName));
+            Cookie authorizationCookie = new Cookie(
+                    "ALLURE_TESTOPS_SESSION", "6f3e0152-f44f-4ea1-8b6c-e0d9b3c3c905");
+            getWebDriver().manage().addCookie(authorizationCookie);
+
+            Integer testCaseId = createTestCaseResponse.getId();
+
+            String testCaseUrl = format("/project/%s/test-cases/%s", projectId, testCaseId);
+            open(testCaseUrl);
+
+            $(".TestCaseLayout__name").shouldHave(text(testCaseName));
+        });
+    }
 }
