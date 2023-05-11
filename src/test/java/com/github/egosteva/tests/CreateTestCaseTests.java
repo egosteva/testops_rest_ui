@@ -4,6 +4,7 @@ import com.codeborne.selenide.Configuration;
 import com.github.egosteva.models.CreateTestCaseBody;
 import com.github.egosteva.models.CreateTestCaseResponse;
 import com.github.javafaker.Faker;
+import static com.github.egosteva.utils.FakerDataUtils.*;
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -15,34 +16,32 @@ import static com.codeborne.selenide.Selectors.byName;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
+import static com.github.egosteva.tests.TestData.*;
 import static io.qameta.allure.Allure.step;
 import static io.restassured.RestAssured.given;
 import static java.lang.String.format;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-public class CreateTestCaseTests {
-
-    static String login = "allure8",
+public class CreateTestCaseTests extends TestBase {
+    Faker faker = new Faker();
+    String login = "allure8",
             password = "allure8",
-            projectId = "2257";
-
-    @BeforeAll
-    static void setUp() {
-        Configuration.baseUrl = "https://allure.autotests.cloud";
-        //       Configuration.holdBrowserOpen = true;
-        Configuration.pageLoadStrategy = "eager";
-        RestAssured.baseURI = "https://allure.autotests.cloud";
-    }
+            projectId = "2257",
+            xsrfToken = "50011563-6a05-4b2e-95ca-344ef2831d85",
+            allureTestopsSession = "613d00cc-9e4c-4415-bf09-011e9ddf1794";
+    String testCaseName = faker.name().fullName();
 
     @Test
     void createWithUiOnlyTest() {
-        Faker faker = new Faker();
+ //       Faker faker = new Faker();
         String testCaseName = faker.name().fullName();
 
         step("Authorize", () -> {
             open("/");
-            $(byName("username")).setValue(login);
-            $(byName("password")).setValue(password);
+    //        $(byName("Username")).setValue(login);
+            $("input[placeholder='Username']").setValue(login);
+   //         $(byName("Password")).setValue(password);
+            $("input[placeholder='Password']").setValue(password);
             $("button[type='submit']").click();
             $("[data-testid=sidemenu]").shouldBe(visible);
         });
@@ -60,7 +59,7 @@ public class CreateTestCaseTests {
 
     @Test
     void createWitApiOnlyTest() {
-        Faker faker = new Faker();
+        //      Faker faker = new Faker();
         String testCaseName = faker.name().fullName();
 
 //        step("Authorize", () -> {
@@ -98,9 +97,9 @@ public class CreateTestCaseTests {
         CreateTestCaseResponse createTestCaseResponse = step("Create testcase", () ->
                         given()
                                 .log().all()
-                                .header("X-XSRF-TOKEN", "f6cce772-d46f-4b79-b9bf-9c598bb4cbce")
-                                .cookies("XSRF-TOKEN", "f6cce772-d46f-4b79-b9bf-9c598bb4cbce",
-                                        "ALLURE_TESTOPS_SESSION", "6f3e0152-f44f-4ea1-8b6c-e0d9b3c3c905")
+                                .header("X-XSRF-TOKEN", xsrfToken)
+                                .cookies("XSRF-TOKEN", xsrfToken,
+                                        "ALLURE_TESTOPS_SESSION", allureTestopsSession)
                                 .contentType("application/json;charset=UTF-8")
                                 .body(testCaseBody)
                                 .queryParam("projectId", projectId)
@@ -122,7 +121,7 @@ public class CreateTestCaseTests {
 
     @Test
     void createWitApiAndUiTest() {
-        Faker faker = new Faker();
+        //      Faker faker = new Faker();
         String testCaseName = faker.name().fullName();
         step("Authorize");
 
@@ -132,9 +131,9 @@ public class CreateTestCaseTests {
         CreateTestCaseResponse createTestCaseResponse = step("Create testcase", () ->
                         given()
                                 .log().all()
-                                .header("X-XSRF-TOKEN", "f6cce772-d46f-4b79-b9bf-9c598bb4cbce")
-                                .cookies("XSRF-TOKEN", "f6cce772-d46f-4b79-b9bf-9c598bb4cbce",
-                                        "ALLURE_TESTOPS_SESSION", "6f3e0152-f44f-4ea1-8b6c-e0d9b3c3c905")
+                                .header("X-XSRF-TOKEN", xsrfToken)
+                                .cookies("XSRF-TOKEN", xsrfToken,
+                                        "ALLURE_TESTOPS_SESSION", allureTestopsSession)
                                 .contentType("application/json;charset=UTF-8")
                                 .body(testCaseBody)
                                 .queryParam("projectId", projectId)
@@ -153,7 +152,7 @@ public class CreateTestCaseTests {
             open("/favicon.ico");
             //            assertThat(createTestCaseResponse.getName()).isEqualTo(testCaseName));
             Cookie authorizationCookie = new Cookie(
-                    "ALLURE_TESTOPS_SESSION", "6f3e0152-f44f-4ea1-8b6c-e0d9b3c3c905");
+                    "ALLURE_TESTOPS_SESSION", allureTestopsSession);
             getWebDriver().manage().addCookie(authorizationCookie);
 
             Integer testCaseId = createTestCaseResponse.getId();
@@ -167,7 +166,7 @@ public class CreateTestCaseTests {
 
     @Test
     void createWitApiAndUiExtendedTest() {
-        Faker faker = new Faker();
+  //      Faker faker = new Faker();
         String testCaseName = faker.name().fullName();
         step("Authorize");
 
@@ -177,9 +176,9 @@ public class CreateTestCaseTests {
         CreateTestCaseResponse createTestCaseResponse = step("Create testcase", () ->
                         given()
                                 .log().all()
-                                .header("X-XSRF-TOKEN", "f6cce772-d46f-4b79-b9bf-9c598bb4cbce")
-                                .cookies("XSRF-TOKEN", "f6cce772-d46f-4b79-b9bf-9c598bb4cbce",
-                                        "ALLURE_TESTOPS_SESSION", "6f3e0152-f44f-4ea1-8b6c-e0d9b3c3c905")
+                                .header("X-XSRF-TOKEN", xsrfToken)
+                                .cookies("XSRF-TOKEN", xsrfToken,
+                                        "ALLURE_TESTOPS_SESSION", allureTestopsSession)
                                 .contentType("application/json;charset=UTF-8")
                                 .body(testCaseBody)
                                 .queryParam("projectId", projectId)
@@ -198,7 +197,7 @@ public class CreateTestCaseTests {
             open("/favicon.ico");
             //            assertThat(createTestCaseResponse.getName()).isEqualTo(testCaseName));
             Cookie authorizationCookie = new Cookie(
-                    "ALLURE_TESTOPS_SESSION", "6f3e0152-f44f-4ea1-8b6c-e0d9b3c3c905");
+                    "ALLURE_TESTOPS_SESSION", allureTestopsSession);
             getWebDriver().manage().addCookie(authorizationCookie);
 
             Integer testCaseId = createTestCaseResponse.getId();
