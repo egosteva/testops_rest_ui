@@ -1,6 +1,7 @@
 package com.github.egosteva.config;
 
 import com.codeborne.selenide.Configuration;
+import io.restassured.RestAssured;
 import org.aeonbits.owner.ConfigFactory;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
@@ -15,6 +16,7 @@ public class WebDriverProvider {
         Configuration.browserSize = config.getBrowserSize();
         Configuration.baseUrl = config.getBaseUrl();
         Configuration.pageLoadStrategy = "eager";
+        RestAssured.baseURI = "https://allure.autotests.cloud";
 
         if (config.isRemote()) {
             Configuration.remote = WebDriverProvider.config.getRemoteUrl();
