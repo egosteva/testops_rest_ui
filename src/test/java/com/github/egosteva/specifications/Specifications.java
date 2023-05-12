@@ -2,7 +2,6 @@ package com.github.egosteva.specifications;
 
 
 import io.restassured.builder.ResponseSpecBuilder;
-
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
 
@@ -10,9 +9,7 @@ import static com.github.egosteva.helpers.CustomAllureListener.withCustomTemplat
 import static com.github.egosteva.tests.TestData.allureTestopsSession;
 import static com.github.egosteva.tests.TestData.xsrfToken;
 import static io.restassured.RestAssured.with;
-import static io.restassured.filter.log.LogDetail.*;
-
-import static io.restassured.http.ContentType.JSON;
+import static io.restassured.filter.log.LogDetail.ALL;
 import static org.hamcrest.Matchers.notNullValue;
 
 public class Specifications {
@@ -24,13 +21,13 @@ public class Specifications {
             .cookies("XSRF-TOKEN", xsrfToken,
                     "ALLURE_TESTOPS_SESSION", allureTestopsSession)
             .contentType("application/json;charset=UTF-8")
-            //         .baseUri("https://allure.autotests.cloud")
+            .baseUri("https://allure.autotests.cloud")
             .basePath("/api/rs");
 
     public static ResponseSpecification responseSpec = new ResponseSpecBuilder()
             .log(ALL)
-      //      .log(STATUS)
-        //    .log(BODY)
+            //      .log(STATUS)
+            //    .log(BODY)
             .expectContentType("application/json")
             .expectStatusCode(200)
             .expectBody("id", notNullValue())

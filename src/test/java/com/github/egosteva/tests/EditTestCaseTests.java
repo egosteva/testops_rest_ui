@@ -5,6 +5,11 @@ import com.github.egosteva.models.AddDescriptionResponseModel;
 import com.github.egosteva.models.CreateTestCaseBodyModel;
 import com.github.egosteva.models.CreateTestCaseResponseModel;
 import com.github.javafaker.Faker;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Owner;
+import io.qameta.allure.Story;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Cookie;
 
@@ -21,7 +26,8 @@ import static io.qameta.allure.Allure.step;
 import static io.restassured.RestAssured.given;
 import static java.lang.String.format;
 
-
+@Feature("TestOps test using REST and UI")
+@DisplayName("TestOps test using REST and UI")
 public class EditTestCaseTests extends TestBase {
     Faker faker = new Faker();
 
@@ -33,6 +39,10 @@ public class EditTestCaseTests extends TestBase {
     String secondStep = faker.book().genre();
 
     @Test
+    @Story("Edit test case")
+    @Owner("egosteva")
+    @DisplayName("Edit name and description of test case")
+    @Tag("rest_ui")
     void editTestCaseNameAndDescriptionTest() {
         CreateTestCaseBodyModel createTestCaseBody = new CreateTestCaseBodyModel();
         createTestCaseBody.setName(testCaseNameInitial);
@@ -101,6 +111,10 @@ public class EditTestCaseTests extends TestBase {
     }
 
     @Test
+    @Story("Edit test case")
+    @Owner("egosteva")
+    @DisplayName("Add steps to test case")
+    @Tag("rest_ui")
     void addStepsToTestCaseTest() {
         CreateTestCaseBodyModel createTestCaseBody = new CreateTestCaseBodyModel();
         createTestCaseBody.setName(testCaseNameInitial);
