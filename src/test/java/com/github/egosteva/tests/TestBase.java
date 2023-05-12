@@ -1,10 +1,8 @@
 package com.github.egosteva.tests;
 
-import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import com.github.egosteva.helpers.Attach;
 import io.qameta.allure.selenide.AllureSelenide;
-import io.restassured.RestAssured;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,10 +14,6 @@ public class TestBase {
     @BeforeAll
     static void setUp() {
         config();
- //       Configuration.baseUrl = "https://allure.autotests.cloud";
- //       Configuration.holdBrowserOpen = true;
-   //     Configuration.pageLoadStrategy = "eager";
-    //    RestAssured.baseURI = "https://allure.autotests.cloud";
     }
 
     @BeforeEach

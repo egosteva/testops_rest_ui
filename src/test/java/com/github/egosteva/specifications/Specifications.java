@@ -1,6 +1,5 @@
 package com.github.egosteva.specifications;
 
-
 import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
