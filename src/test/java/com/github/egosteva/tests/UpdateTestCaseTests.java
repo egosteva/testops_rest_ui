@@ -28,7 +28,7 @@ import static java.lang.String.format;
 
 @Feature("TestOps test using REST and UI")
 @DisplayName("TestOps test using REST and UI")
-public class EditTestCaseTests extends TestBase {
+public class UpdateTestCaseTests extends TestBase {
     Faker faker = new Faker();
 
     String testCaseNameInitial = faker.artist().name();
@@ -39,7 +39,7 @@ public class EditTestCaseTests extends TestBase {
     String secondStep = faker.book().genre();
 
     @Test
-    @Story("Edit test case")
+    @Story("Update test case")
     @Owner("egosteva")
     @DisplayName("Edit name and description of test case")
     @Tag("rest_ui")
@@ -85,10 +85,10 @@ public class EditTestCaseTests extends TestBase {
         step("Check test case name", () ->
                 $(".TestCaseLayout__name").shouldHave(text(testCaseNameInitial)));
 
-        step("Check test case description", () ->
+        step("Check description", () ->
                 $("[data-testid=section__description]").shouldHave(text(testCaseDescriptionInitial)));
 
-        step("Change test case name", () -> {
+        step("Update test case name", () -> {
             $(".Menu__trigger").click();
             $(byText("Rename test case")).click();
             $("[placeholder='Enter name']").clear();
@@ -96,22 +96,22 @@ public class EditTestCaseTests extends TestBase {
             $(byText("Submit")).click();
         });
 
-        step("Check new test case name", () ->
+        step("Check updated test case name", () ->
                 $(".TestCaseLayout__name").shouldHave(text(testCaseNameEdited)));
 
-        step("Change test case description", () -> {
+        step("Update description", () -> {
             $("[data-testid=section__description]").$("[data-testid=button__edit_section]").click();
             $("[data-testid=section__description]").$(".MarkdownTextarea__edit").clear();
             $("[data-testid=section__description]").$(".MarkdownTextarea__edit").setValue(testCaseDescriptionEdited);
             $(byText("Submit")).click();
         });
 
-        step("Check new test case description", () ->
+        step("Check updated description", () ->
                 $("[data-testid=section__description]").shouldHave(text(testCaseDescriptionEdited)));
     }
 
     @Test
-    @Story("Edit test case")
+    @Story("Update test case")
     @Owner("egosteva")
     @DisplayName("Add steps to test case")
     @Tag("rest_ui")
