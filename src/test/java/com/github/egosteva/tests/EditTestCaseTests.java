@@ -27,8 +27,8 @@ public class EditTestCaseTests extends TestBase {
             xsrfToken = "50011563-6a05-4b2e-95ca-344ef2831d85",
             allureTestopsSession = "ff19a853-df73-433b-bd22-b4b6c7475f2e";
     String testCaseNameInitial = faker.artist().name();
-    String testCaseDescriptionInitial = faker.address().fullAddress();
     String testCaseNameEdited = faker.book().author();
+    String testCaseDescriptionInitial = faker.address().fullAddress();
     String testCaseDescriptionEdited = faker.color().name();
     String firstStep = "This is the first step",
             secondStep = "This is the second step";
@@ -118,7 +118,5 @@ public class EditTestCaseTests extends TestBase {
         step("Check new test case description", () ->
                 $("[data-testid=section__description]").shouldHave(text(testCaseDescriptionEdited)));
     }
-
-
 
 }
