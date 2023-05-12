@@ -3,7 +3,7 @@ package com.github.egosteva.models;
 import lombok.Data;
 
 @Data
-public class AddDescriptionBody {
+public class AddDescriptionBodyModel {
     Integer id;
     String description, descriptionHtml;
 }

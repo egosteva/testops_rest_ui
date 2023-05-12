@@ -3,7 +3,7 @@ package com.github.egosteva.models;
 import lombok.Data;
 
 @Data
-public class CreateTestCaseResponse {
+public class CreateTestCaseResponseModel {
 
     Integer id;
     String name, statusName, statusColor;

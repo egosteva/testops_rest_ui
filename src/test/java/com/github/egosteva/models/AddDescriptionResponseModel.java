@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class AddDescriptionResponse {
+public class AddDescriptionResponseModel {
     Integer id, projectId;
     String name, description, descriptionHtml;
     Boolean deleted, automated, external;
