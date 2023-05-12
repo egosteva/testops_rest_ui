@@ -3,6 +3,11 @@ package com.github.egosteva.tests;
 import com.github.egosteva.models.CreateTestCaseBodyModel;
 import com.github.egosteva.models.CreateTestCaseResponseModel;
 import com.github.javafaker.Faker;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Owner;
+import io.qameta.allure.Story;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Cookie;
 
@@ -19,10 +24,16 @@ import static io.restassured.RestAssured.given;
 import static java.lang.String.format;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
+@Feature("TestOps test using REST and UI")
+@DisplayName("TestOps test using REST and UI")
 public class CreateTestCaseTests extends TestBase {
     Faker faker = new Faker();
 
     @Test
+    @Story("Create test case")
+    @Owner("egosteva")
+    @DisplayName("Create test case using only UI")
+    @Tag("rest_ui")
     void createWithUiOnlyTest() {
         String testCaseName = faker.name().fullName();
 
@@ -46,10 +57,13 @@ public class CreateTestCaseTests extends TestBase {
     }
 
     @Test
-    void createWitApiOnlyTest() {
+    @Story("Create test case")
+    @Owner("egosteva")
+    @DisplayName("Create test case using only API")
+    @Tag("rest_ui")
+    void createWithApiOnlyTest() {
         String testCaseName = faker.name().fullName();
 
-        step("Authorize");
         CreateTestCaseBodyModel testCaseBody = new CreateTestCaseBodyModel();
         testCaseBody.setName(testCaseName);
 
@@ -68,40 +82,12 @@ public class CreateTestCaseTests extends TestBase {
     }
 
     @Test
-    void createWitApiAndUiTest() {
+    @Story("Create test case")
+    @Owner("egosteva")
+    @DisplayName("Create test case using API and UI")
+    @Tag("rest_ui")
+    void createWithApiAndUiTest() {
         String testCaseName = faker.name().fullName();
-        step("Authorize");
-
-        CreateTestCaseBodyModel testCaseBody = new CreateTestCaseBodyModel();
-        testCaseBody.setName(testCaseName);
-
-        CreateTestCaseResponseModel createTestCaseResponse = step("Create testcase", () ->
-                given(requestSpec)
-                        .body(testCaseBody)
-                        .queryParam("projectId", projectId)
-                        .when()
-                        .post("/testcasetree/leaf")
-                        .then()
-                        .spec(responseSpec)
-                        .extract().as(CreateTestCaseResponseModel.class));
-
-        step("Check test case name", () -> {
-            open("/favicon.ico");
-            Cookie authorizationCookie = new Cookie(
-                    "ALLURE_TESTOPS_SESSION", allureTestopsSession);
-            getWebDriver().manage().addCookie(authorizationCookie);
-            Integer testCaseId = createTestCaseResponse.getId();
-            String testCaseUrl = format("/project/%s/test-cases/%s", projectId, testCaseId);
-            open(testCaseUrl);
-
-            $(".TestCaseLayout__name").shouldHave(text(testCaseName));
-        });
-    }
-
-    @Test
-    void createWitApiAndUiExtendedTest() {
-        String testCaseName = faker.name().fullName();
-        step("Authorize");
 
         CreateTestCaseBodyModel testCaseBody = new CreateTestCaseBodyModel();
         testCaseBody.setName(testCaseName);
@@ -123,7 +109,6 @@ public class CreateTestCaseTests extends TestBase {
             Cookie authorizationCookie = new Cookie(
                     "ALLURE_TESTOPS_SESSION", allureTestopsSession);
             getWebDriver().manage().addCookie(authorizationCookie);
-
 
             String testCaseUrl = format("/project/%s/test-cases/%s", projectId, testCaseId);
             open(testCaseUrl);
