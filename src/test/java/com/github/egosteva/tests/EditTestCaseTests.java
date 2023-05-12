@@ -13,8 +13,10 @@ import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
-import static com.github.egosteva.specifications.Specifications.*;
-import static com.github.egosteva.tests.TestData.*;
+import static com.github.egosteva.specifications.Specifications.requestSpec;
+import static com.github.egosteva.specifications.Specifications.responseSpec;
+import static com.github.egosteva.tests.TestData.allureTestopsSession;
+import static com.github.egosteva.tests.TestData.projectId;
 import static io.qameta.allure.Allure.step;
 import static io.restassured.RestAssured.given;
 import static java.lang.String.format;
@@ -27,8 +29,8 @@ public class EditTestCaseTests extends TestBase {
     String testCaseNameEdited = faker.book().author();
     String testCaseDescriptionInitial = faker.address().fullAddress();
     String testCaseDescriptionEdited = faker.color().name();
-    String firstStep = "This is the first step",
-            secondStep = "This is the second step";
+    String firstStep = faker.book().title();
+    String secondStep = faker.book().genre();
 
     @Test
     void editTestCaseNameAndDescriptionTest() {
@@ -85,16 +87,57 @@ public class EditTestCaseTests extends TestBase {
         });
 
         step("Check new test case name", () ->
-            $(".TestCaseLayout__name").shouldHave(text(testCaseNameEdited)));
+                $(".TestCaseLayout__name").shouldHave(text(testCaseNameEdited)));
 
         step("Change test case description", () -> {
-        $("[data-testid=section__description]").$("[data-testid=button__edit_section]").click();
-        $("[data-testid=section__description]").$(".MarkdownTextarea__edit").clear();
-        $("[data-testid=section__description]").$(".MarkdownTextarea__edit").setValue(testCaseDescriptionEdited);
+            $("[data-testid=section__description]").$("[data-testid=button__edit_section]").click();
+            $("[data-testid=section__description]").$(".MarkdownTextarea__edit").clear();
+            $("[data-testid=section__description]").$(".MarkdownTextarea__edit").setValue(testCaseDescriptionEdited);
             $(byText("Submit")).click();
         });
 
         step("Check new test case description", () ->
                 $("[data-testid=section__description]").shouldHave(text(testCaseDescriptionEdited)));
+    }
+
+    @Test
+    void addStepsToTestCaseTest() {
+        CreateTestCaseBodyModel createTestCaseBody = new CreateTestCaseBodyModel();
+        createTestCaseBody.setName(testCaseNameInitial);
+
+        CreateTestCaseResponseModel createTestCaseResponse = step("Create testcase", () ->
+                given(requestSpec)
+                        .body(createTestCaseBody)
+                        .queryParam("projectId", projectId)
+                        .when()
+                        .post("/testcasetree/leaf")
+                        .then()
+                        .spec(responseSpec)
+                        .extract().as(CreateTestCaseResponseModel.class));
+
+        Integer testCaseId = createTestCaseResponse.getId();
+
+        step("Open test case page", () -> {
+            open("/favicon.ico");
+            Cookie authorizationCookie = new Cookie(
+                    "ALLURE_TESTOPS_SESSION", allureTestopsSession);
+            getWebDriver().manage().addCookie(authorizationCookie);
+            String testCaseUrl = format("/project/%s/test-cases/%s", projectId, testCaseId);
+            open(testCaseUrl);
+        });
+
+        step("Check test case name", () ->
+                $(".TestCaseLayout__name").shouldHave(text(testCaseNameInitial)));
+
+        step("Add two steps to test case", () -> {
+            $("[data-testid=section__scenario]").$("[data-testid=button__edit_section]").click();
+            $(".TestCaseScenarioStepEdit__textarea").setValue(firstStep).pressEnter().setValue(secondStep);
+            $(byText("Submit")).click();
+        });
+
+        step("Check steps name", () -> {
+            $(".TreeElement").shouldHave(text(firstStep));
+            $(".TreeElement").shouldHave(text(secondStep));
+        });
     }
 }
