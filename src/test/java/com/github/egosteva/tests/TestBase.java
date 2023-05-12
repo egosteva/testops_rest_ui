@@ -9,7 +9,7 @@ public class TestBase {
     @BeforeAll
     static void setUp() {
         Configuration.baseUrl = "https://allure.autotests.cloud";
-        //       Configuration.holdBrowserOpen = true;
+        Configuration.holdBrowserOpen = true;
         Configuration.pageLoadStrategy = "eager";
         RestAssured.baseURI = "https://allure.autotests.cloud";
     }

@@ -29,7 +29,7 @@ public class CreateTestCaseTests extends TestBase {
             projectId = "2257",
             xsrfToken = "50011563-6a05-4b2e-95ca-344ef2831d85",
             allureTestopsSession = "613d00cc-9e4c-4415-bf09-011e9ddf1794";
-    String testCaseName = faker.name().fullName();
+ //   String testCaseName = faker.name().fullName();
 
     @Test
     void createWithUiOnlyTest() {
@@ -59,18 +59,9 @@ public class CreateTestCaseTests extends TestBase {
 
     @Test
     void createWitApiOnlyTest() {
-        //      Faker faker = new Faker();
+
         String testCaseName = faker.name().fullName();
 
-//        step("Authorize", () -> {
-//            open("/");
-//            $(byName("username")).setValue(login);
-//            $(byName("password")).setValue(password);
-//            $("button[type='submit']").click();
-//        });
-//        step("Go to project", () -> {
-//            open("/project/2220/test-cases");
-//        });
         step("Authorize");
         //    step("Create testcase", () -> {
         CreateTestCaseBody testCaseBody = new CreateTestCaseBody();
