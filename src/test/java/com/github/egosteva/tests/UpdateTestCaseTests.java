@@ -1,6 +1,7 @@
 package com.github.egosteva.tests;
 
 import com.github.egosteva.models.*;
+import com.github.egosteva.pages.TestCasesPage;
 import com.github.javafaker.Faker;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Owner;
@@ -8,27 +9,20 @@ import io.qameta.allure.Story;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.Cookie;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.codeborne.selenide.Condition.text;
-import static com.codeborne.selenide.Selectors.byText;
-import static com.codeborne.selenide.Selenide.*;
-import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 import static com.github.egosteva.specifications.Specifications.requestSpec;
 import static com.github.egosteva.specifications.Specifications.responseSpec;
-import static com.github.egosteva.tests.TestData.allureTestopsSession;
 import static com.github.egosteva.tests.TestData.projectId;
 import static io.qameta.allure.Allure.step;
 import static io.restassured.RestAssured.given;
-import static java.lang.String.format;
-import static org.assertj.core.api.FactoryBasedNavigableListAssert.assertThat;
 
 @Feature("Update TestOps test case using REST and UI")
 @DisplayName("Update TestOps test case using REST and UI")
 public class UpdateTestCaseTests extends TestBase {
+    TestCasesPage testCasesPage = new TestCasesPage();
     Faker faker = new Faker();
 
     String testCaseNameInitial = faker.artist().name();
@@ -73,41 +67,26 @@ public class UpdateTestCaseTests extends TestBase {
                     .spec(responseSpec)
                     .extract().as(AddDescriptionResponseModel.class));
 
-        step("Open test case page", () -> {
-            open("/favicon.ico");
-            Cookie authorizationCookie = new Cookie(
-                    "ALLURE_TESTOPS_SESSION", allureTestopsSession);
-            getWebDriver().manage().addCookie(authorizationCookie);
-            String testCaseUrl = format("/project/%s/test-cases/%s", projectId, testCaseId);
-            open(testCaseUrl);
-        });
+        step("Open test case editor", () ->
+            testCasesPage.openTestCaseEditor(projectId, testCaseId));
 
         step("Check test case name", () ->
-                $(".TestCaseLayout__name").shouldHave(text(testCaseNameInitial)));
+                testCasesPage.checkTestCaseNameInEditor(testCaseNameInitial));
 
         step("Check description", () ->
-                $("[data-testid=section__description]").shouldHave(text(testCaseDescriptionInitial)));
+        testCasesPage.checkTestCaseDescription(testCaseDescriptionInitial));
 
-        step("Update test case name", () -> {
-            $(".Menu__trigger").click();
-            $(byText("Rename test case")).click();
-            $("[placeholder='Enter name']").clear();
-            $("[placeholder='Enter name']").setValue(testCaseNameUpdated);
-            $(byText("Submit")).click();
-        });
+        step("Update test case name", () ->
+            testCasesPage.updateTestCaseName(testCaseNameUpdated));
 
         step("Check updated test case name", () ->
-                $(".TestCaseLayout__name").shouldHave(text(testCaseNameUpdated)));
+        testCasesPage.checkTestCaseNameInEditor(testCaseNameUpdated));
 
-        step("Update description", () -> {
-            $("[data-testid=section__description]").$("[data-testid=button__edit_section]").click();
-            $("[data-testid=section__description]").$(".MarkdownTextarea__edit").clear();
-            $("[data-testid=section__description]").$(".MarkdownTextarea__edit").setValue(testCaseDescriptionUpdated);
-            $(byText("Submit")).click();
-        });
+        step("Update description", () ->
+            testCasesPage.updateTestCaseDescription(testCaseDescriptionUpdated));
 
         step("Check updated description", () ->
-                $("[data-testid=section__description]").shouldHave(text(testCaseDescriptionUpdated)));
+                testCasesPage.checkTestCaseDescription(testCaseDescriptionUpdated));
     }
 
     @Test
@@ -131,27 +110,17 @@ public class UpdateTestCaseTests extends TestBase {
 
         Integer testCaseId = createTestCaseResponse.getId();
 
-        step("Open test case page", () -> {
-            open("/favicon.ico");
-            Cookie authorizationCookie = new Cookie(
-                    "ALLURE_TESTOPS_SESSION", allureTestopsSession);
-            getWebDriver().manage().addCookie(authorizationCookie);
-            String testCaseUrl = format("/project/%s/test-cases/%s", projectId, testCaseId);
-            open(testCaseUrl);
-        });
+        step("Open test case editor", () ->
+            testCasesPage.openTestCaseEditor(projectId, testCaseId));
 
         step("Check test case name", () ->
-                $(".TestCaseLayout__name").shouldHave(text(testCaseNameInitial)));
+                testCasesPage.checkTestCaseNameInEditor(testCaseNameInitial));
 
-        step("Add step to test case", () -> {
-            $("[data-testid=section__scenario]").$("[data-testid=button__edit_section]").click();
-            $(".TestCaseScenarioStepEdit__textarea").setValue(stepNameInitial);
-            $(byText("Submit")).click();
-        });
+        step("Add step to test case", () ->
+            testCasesPage.addStepToTestCase(stepNameInitial));
 
-        step("Check step name", () -> {
-            $(".TestCaseScenarioStep__name").shouldHave(text(stepNameInitial));
-        });
+        step("Check step name", () ->
+            testCasesPage.checkStepName(stepNameInitial));
     }
 
     @Test
@@ -194,31 +163,19 @@ public class UpdateTestCaseTests extends TestBase {
                         .spec(responseSpec)
                         .extract().as(AddStepResponseModel.class));
 
-        step("Open test case page", () -> {
-            open("/favicon.ico");
-            Cookie authorizationCookie = new Cookie(
-                    "ALLURE_TESTOPS_SESSION", allureTestopsSession);
-            getWebDriver().manage().addCookie(authorizationCookie);
-            String testCaseUrl = format("/project/%s/test-cases/%s", projectId, testCaseId);
-            open(testCaseUrl);
-        });
+        step("Open test case editor", () ->
+                testCasesPage.openTestCaseEditor(projectId, testCaseId));
 
         step("Check test case name", () ->
-                $(".TestCaseLayout__name").shouldHave(text(testCaseNameInitial)));
+                testCasesPage.checkTestCaseNameInEditor(testCaseNameInitial));
 
-        step("Check step name", () -> {
-            $(".TestCaseScenarioStep__name").shouldHave(text(stepNameInitial));
-        });
+        step("Check step name", () ->
+                testCasesPage.checkStepName(stepNameInitial));
 
-        step("Edit step of test case", () -> {
-            $("[data-testid=section__scenario]").$("[data-testid=button__edit_section]").click();
-            $(".TestCaseScenarioStepEdit__textarea").clear();
-            $(".TestCaseScenarioStepEdit__textarea").setValue(stepNameUpdated);
-            $(byText("Submit")).click();
-        });
+        step("Edit step of test case", () ->
+                testCasesPage.updateStepName(stepNameUpdated));
 
-        step("Check updated step name", () -> {
-            $(".TestCaseScenarioStep__name").shouldHave(text(stepNameUpdated));
-        });
+        step("Check updated step name", () ->
+                testCasesPage.checkStepName(stepNameUpdated));
     }
 }

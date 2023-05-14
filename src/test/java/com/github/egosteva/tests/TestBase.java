@@ -17,7 +17,6 @@ public class TestBase {
     static void setUp() {
         config();
         RestAssured.baseURI = "https://allure.autotests.cloud";
-        Configuration.holdBrowserOpen = true;
     }
 
     @BeforeEach

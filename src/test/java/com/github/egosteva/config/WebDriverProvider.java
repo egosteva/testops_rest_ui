@@ -1,7 +1,6 @@
 package com.github.egosteva.config;
 
 import com.codeborne.selenide.Configuration;
-import io.restassured.RestAssured;
 import org.aeonbits.owner.ConfigFactory;
 import org.openqa.selenium.remote.DesiredCapabilities;
 

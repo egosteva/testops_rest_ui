@@ -9,7 +9,6 @@ import static com.github.egosteva.tests.TestData.allureTestopsSession;
 import static com.github.egosteva.tests.TestData.xsrfToken;
 import static io.restassured.RestAssured.with;
 import static io.restassured.filter.log.LogDetail.ALL;
-import static org.hamcrest.Matchers.notNullValue;
 
 public class Specifications {
 
@@ -25,10 +24,7 @@ public class Specifications {
 
     public static ResponseSpecification responseSpec = new ResponseSpecBuilder()
             .log(ALL)
-            //      .log(STATUS)
-            //    .log(BODY)
             .expectContentType("application/json")
             .expectStatusCode(200)
-     //      .expectBody("id", notNullValue())
             .build();
 }

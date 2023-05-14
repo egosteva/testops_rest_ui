@@ -6,5 +6,5 @@ public class TestData {
             password = "allure8",
             projectId = "2257",
             xsrfToken = "50011563-6a05-4b2e-95ca-344ef2831d85",
-            allureTestopsSession = "6252222c-dfc9-4258-a3ad-1d3b4b5a318a";
+            allureTestopsSession = "ca2866a5-4bb9-419d-bc97-f47a7d982e31";
 }
