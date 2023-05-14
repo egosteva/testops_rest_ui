@@ -57,12 +57,12 @@ tasks.withType(Test) {
 
  task create_testcase_test(type: Test) {
      useJUnitPlatform {
-        includeTags("rest_ui")
+        includeTags("create_testcase")
     }
  }
 
 task update_testcase_test(type: Test) {
     useJUnitPlatform {
-        includeTags("rest_ui")
+        includeTags("update_testcase")
     }
 }
