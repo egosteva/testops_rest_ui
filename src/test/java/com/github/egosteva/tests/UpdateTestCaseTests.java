@@ -15,8 +15,7 @@ import java.util.List;
 
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selectors.byText;
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.open;
+import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 import static com.github.egosteva.specifications.Specifications.requestSpec;
 import static com.github.egosteva.specifications.Specifications.responseSpec;
@@ -151,7 +150,7 @@ public class UpdateTestCaseTests extends TestBase {
         });
 
         step("Check step name", () -> {
-            $("TestCaseScenarioStep__name").shouldHave(text(stepNameInitial));
+            $(".TestCaseScenarioStep__name").shouldHave(text(stepNameInitial));
         });
     }
 
