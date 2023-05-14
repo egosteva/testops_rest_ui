@@ -33,7 +33,7 @@ public class CreateTestCaseTests extends TestBase {
     @Story("Create test case using only UI")
     @Owner("egosteva")
     @DisplayName("Create test case using only UI")
-    @Tag("rest_ui")
+    @Tag("create_testcase")
     void createWithUiOnlyTest() {
         String testCaseName = faker.name().fullName();
 
@@ -60,7 +60,7 @@ public class CreateTestCaseTests extends TestBase {
     @Story("Create test case using API and UI")
     @Owner("egosteva")
     @DisplayName("Create test case using API and UI")
-    @Tag("rest_ui")
+    @Tag("create_testcase")
     void createWithApiAndUiTest() {
         String testCaseName = faker.name().fullName();
 

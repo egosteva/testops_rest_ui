@@ -42,7 +42,7 @@ public class UpdateTestCaseTests extends TestBase {
     @Story("Update test case")
     @Owner("egosteva")
     @DisplayName("Edit name and description of test case")
-    @Tag("rest_ui")
+    @Tag("update_testcase")
     void updateTestCaseNameAndDescriptionTest() {
         CreateTestCaseBodyModel createTestCaseBody = new CreateTestCaseBodyModel();
         createTestCaseBody.setName(testCaseNameInitial);
@@ -114,7 +114,7 @@ public class UpdateTestCaseTests extends TestBase {
     @Story("Update test case")
     @Owner("egosteva")
     @DisplayName("Add step to test case")
-    @Tag("rest_ui")
+    @Tag("update_testcase")
     void addStepToTestCaseTest() {
         CreateTestCaseBodyModel createTestCaseBody = new CreateTestCaseBodyModel();
         createTestCaseBody.setName(testCaseNameInitial);
@@ -158,7 +158,7 @@ public class UpdateTestCaseTests extends TestBase {
     @Story("Update test case")
     @Owner("egosteva")
     @DisplayName("Update step of test case")
-    @Tag("rest_ui")
+    @Tag("update_testcase")
     void updateStepOfTestCaseTest() {
         CreateTestCaseBodyModel createTestCaseBody = new CreateTestCaseBodyModel();
         createTestCaseBody.setName(testCaseNameInitial);
