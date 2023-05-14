@@ -24,13 +24,13 @@ import static io.restassured.RestAssured.given;
 import static java.lang.String.format;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-@Feature("TestOps test using REST and UI")
-@DisplayName("TestOps test using REST and UI")
+@Feature("Create TestOps test case")
+@DisplayName("Create TestOps test case")
 public class CreateTestCaseTests extends TestBase {
     Faker faker = new Faker();
 
     @Test
-    @Story("Create test case")
+    @Story("Create test case using only UI")
     @Owner("egosteva")
     @DisplayName("Create test case using only UI")
     @Tag("rest_ui")
@@ -57,32 +57,7 @@ public class CreateTestCaseTests extends TestBase {
     }
 
     @Test
-    @Story("Create test case")
-    @Owner("egosteva")
-    @DisplayName("Create test case using only API")
-    @Tag("rest_ui")
-    void createWithApiOnlyTest() {
-        String testCaseName = faker.name().fullName();
-
-        CreateTestCaseBodyModel testCaseBody = new CreateTestCaseBodyModel();
-        testCaseBody.setName(testCaseName);
-
-        CreateTestCaseResponseModel createTestCaseResponse = step("Create testcase", () ->
-                given(requestSpec)
-                        .body(testCaseBody)
-                        .queryParam("projectId", projectId)
-                        .when()
-                        .post("/testcasetree/leaf")
-                        .then()
-                        .spec(responseSpec)
-                        .extract().as(CreateTestCaseResponseModel.class));
-
-        step("Check test case name", () ->
-                assertThat(createTestCaseResponse.getName()).isEqualTo(testCaseName));
-    }
-
-    @Test
-    @Story("Create test case")
+    @Story("Create test case using API and UI")
     @Owner("egosteva")
     @DisplayName("Create test case using API and UI")
     @Tag("rest_ui")

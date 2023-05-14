@@ -26,8 +26,8 @@ import static io.qameta.allure.Allure.step;
 import static io.restassured.RestAssured.given;
 import static java.lang.String.format;
 
-@Feature("TestOps test using REST and UI")
-@DisplayName("TestOps test using REST and UI")
+@Feature("Update TestOps test case using REST and UI")
+@DisplayName("Update TestOps test case using REST and UI")
 public class UpdateTestCaseTests extends TestBase {
     Faker faker = new Faker();
 

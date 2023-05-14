@@ -16,7 +16,6 @@ public class WebDriverProvider {
         Configuration.browserSize = config.getBrowserSize();
         Configuration.baseUrl = config.getBaseUrl();
         Configuration.pageLoadStrategy = "eager";
-        RestAssured.baseURI = "https://allure.autotests.cloud";
 
         if (config.isRemote()) {
             Configuration.remote = WebDriverProvider.config.getRemoteUrl();
