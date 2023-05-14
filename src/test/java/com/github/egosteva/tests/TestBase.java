@@ -1,5 +1,6 @@
 package com.github.egosteva.tests;
 
+import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import com.github.egosteva.helpers.Attach;
 import io.qameta.allure.selenide.AllureSelenide;
@@ -16,6 +17,7 @@ public class TestBase {
     static void setUp() {
         config();
         RestAssured.baseURI = "https://allure.autotests.cloud";
+        Configuration.holdBrowserOpen = true;
     }
 
     @BeforeEach

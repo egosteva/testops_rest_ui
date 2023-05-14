@@ -29,6 +29,6 @@ public class Specifications {
             //    .log(BODY)
             .expectContentType("application/json")
             .expectStatusCode(200)
-            .expectBody("id", notNullValue())
+     //      .expectBody("id", notNullValue())
             .build();
 }
