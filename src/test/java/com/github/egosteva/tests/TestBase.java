@@ -12,7 +12,6 @@ import org.junit.jupiter.api.BeforeEach;
 import static com.github.egosteva.config.WebDriverProvider.config;
 
 public class TestBase {
-
     @BeforeAll
     static void setUp() {
         config();
