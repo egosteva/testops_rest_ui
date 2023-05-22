@@ -4,7 +4,7 @@ import com.github.egosteva.models.CreateTestCaseBodyModel;
 import com.github.egosteva.models.CreateTestCaseResponseModel;
 import com.github.egosteva.pages.LoginPage;
 import com.github.egosteva.pages.TestCasesPage;
-import com.github.javafaker.Faker;
+import com.github.egosteva.utils.RandomTestDataUtil;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Owner;
 import io.qameta.allure.Story;
@@ -18,21 +18,20 @@ import static com.github.egosteva.tests.TestData.*;
 import static io.qameta.allure.Allure.step;
 import static io.restassured.RestAssured.given;
 
+@Story("Create test case using only UI")
+@Owner("egosteva")
 @Feature("Create TestOps test case")
 @DisplayName("Create TestOps test case")
+@Tag("create_testcase")
 public class CreateTestCaseTests extends TestBase {
     LoginPage loginPage = new LoginPage();
     TestCasesPage testCasesPage = new TestCasesPage();
-    Faker faker = new Faker();
+    RandomTestDataUtil randomTestDataUtil = new RandomTestDataUtil();
+    String testCaseName = randomTestDataUtil.getTestCaseName();
 
     @Test
-    @Story("Create test case using only UI")
-    @Owner("egosteva")
     @DisplayName("Create test case using only UI")
-    @Tag("create_testcase")
     void createWithUiOnlyTest() {
-        String testCaseName = faker.name().fullName();
-
         step("Authorize", () -> {
             loginPage.openPage()
                     .setLogin(login)
@@ -42,29 +41,24 @@ public class CreateTestCaseTests extends TestBase {
         });
 
         step("Go to project", () ->
-            testCasesPage.openProjectPage());
+                testCasesPage.openProjectPage());
 
         step("Create test case", () ->
-            testCasesPage.setTestcaseName(testCaseName));
+                testCasesPage.setTestcaseName(testCaseName));
 
         step("Check test case name", () ->
-            testCasesPage.checkTestCaseNameAtSideBar(testCaseName));
+                testCasesPage.checkTestCaseNameAtSideBar(testCaseName));
     }
 
     @Test
-    @Story("Create test case using API and UI")
-    @Owner("egosteva")
     @DisplayName("Create test case using API and UI")
-    @Tag("create_testcase")
     void createWithApiAndUiTest() {
-        String testCaseName = faker.name().fullName();
-
-        CreateTestCaseBodyModel testCaseBody = new CreateTestCaseBodyModel();
-        testCaseBody.setName(testCaseName);
+        CreateTestCaseBodyModel createTestCaseBody = new CreateTestCaseBodyModel();
+        createTestCaseBody.setName(testCaseName);
 
         CreateTestCaseResponseModel createTestCaseResponse = step("Create testcase", () ->
                 given(requestSpec)
-                        .body(testCaseBody)
+                        .body(createTestCaseBody)
                         .queryParam("projectId", projectId)
                         .when()
                         .post("/testcasetree/leaf")
@@ -75,7 +69,7 @@ public class CreateTestCaseTests extends TestBase {
         Integer testCaseId = createTestCaseResponse.getId();
 
         step("Open test case editor", () ->
-            testCasesPage.openTestCaseEditor(projectId, testCaseId));
+                testCasesPage.openTestCaseEditor(projectId, testCaseId));
 
         step("Check test case name", () ->
                 testCasesPage.checkTestCaseNameInEditor(testCaseName));
