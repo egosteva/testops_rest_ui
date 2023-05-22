@@ -19,8 +19,11 @@ import static com.github.egosteva.tests.TestData.projectId;
 import static io.qameta.allure.Allure.step;
 import static io.restassured.RestAssured.given;
 
+@Story("Update test case")
+@Owner("egosteva")
 @Feature("Update TestOps test case using REST and UI")
 @DisplayName("Update TestOps test case using REST and UI")
+@Tag("update_testcase")
 public class UpdateTestCaseTests extends TestBase {
     TestCasesPage testCasesPage = new TestCasesPage();
     Faker faker = new Faker();
@@ -33,10 +36,7 @@ public class UpdateTestCaseTests extends TestBase {
     String stepNameUpdated = faker.book().genre();
 
     @Test
-    @Story("Update test case")
-    @Owner("egosteva")
     @DisplayName("Edit name and description of test case")
-    @Tag("update_testcase")
     void updateTestCaseNameAndDescriptionTest() {
         CreateTestCaseBodyModel createTestCaseBody = new CreateTestCaseBodyModel();
         createTestCaseBody.setName(testCaseNameInitial);
@@ -90,10 +90,7 @@ public class UpdateTestCaseTests extends TestBase {
     }
 
     @Test
-    @Story("Update test case")
-    @Owner("egosteva")
     @DisplayName("Add step to test case")
-    @Tag("update_testcase")
     void addStepToTestCaseTest() {
         CreateTestCaseBodyModel createTestCaseBody = new CreateTestCaseBodyModel();
         createTestCaseBody.setName(testCaseNameInitial);
@@ -124,10 +121,7 @@ public class UpdateTestCaseTests extends TestBase {
     }
 
     @Test
-    @Story("Update test case")
-    @Owner("egosteva")
     @DisplayName("Update step of test case")
-    @Tag("update_testcase")
     void updateStepOfTestCaseTest() {
         CreateTestCaseBodyModel createTestCaseBody = new CreateTestCaseBodyModel();
         createTestCaseBody.setName(testCaseNameInitial);
