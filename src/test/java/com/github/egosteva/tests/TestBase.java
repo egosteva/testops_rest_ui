@@ -26,12 +26,13 @@ public class TestBase {
 
     @AfterEach
     void addAttachments() {
-        Selenide.closeWebDriver();
+
         Attach.screenshotAs("Last step screenshot");
         Attach.pageSource();
         Attach.browserConsoleLogs();
         if (config.isRemote()) {
             Attach.addVideo();
         }
+        Selenide.closeWebDriver();
     }
 }
