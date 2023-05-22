@@ -56,12 +56,12 @@ public class CreateTestCaseTests extends TestBase {
     void createWithApiAndUiTest() {
         String testCaseName = faker.name().fullName();
 
-        CreateTestCaseBodyModel testCaseBody = new CreateTestCaseBodyModel();
-        testCaseBody.setName(testCaseName);
+        CreateTestCaseBodyModel createTestCaseBody = new CreateTestCaseBodyModel();
+        createTestCaseBody.setName(testCaseName);
 
         CreateTestCaseResponseModel createTestCaseResponse = step("Create testcase", () ->
                 given(requestSpec)
-                        .body(testCaseBody)
+                        .body(createTestCaseBody)
                         .queryParam("projectId", projectId)
                         .when()
                         .post("/testcasetree/leaf")
