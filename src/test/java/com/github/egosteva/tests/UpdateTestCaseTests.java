@@ -2,7 +2,7 @@ package com.github.egosteva.tests;
 
 import com.github.egosteva.models.*;
 import com.github.egosteva.pages.TestCasesPage;
-import com.github.javafaker.Faker;
+import com.github.egosteva.utils.RandomTestDataUtil;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Owner;
 import io.qameta.allure.Story;
@@ -27,10 +27,9 @@ import static io.restassured.RestAssured.given;
 @Tag("update_testcase")
 public class UpdateTestCaseTests extends TestBase {
     TestCasesPage testCasesPage = new TestCasesPage();
-
-    Faker faker = new Faker();
-    String testCaseNameInitial = faker.artist().name();
-    String stepNameInitial = faker.book().title();
+    RandomTestDataUtil randomTestDataUtil = new RandomTestDataUtil();
+    String testCaseNameInitial = randomTestDataUtil.getTestCaseName();
+    String stepNameInitial = randomTestDataUtil.getStepName();
     Integer testCaseId;
 
     @BeforeEach
@@ -54,9 +53,9 @@ public class UpdateTestCaseTests extends TestBase {
     @Test
     @DisplayName("Edit name and description of test case")
     void updateTestCaseNameAndDescriptionTest() {
-        String testCaseNameUpdated = faker.book().author();
-        String testCaseDescriptionInitial = faker.address().fullAddress();
-        String testCaseDescriptionUpdated = faker.color().name();
+        String testCaseDescriptionInitial = randomTestDataUtil.getTestCaseDescription();
+        String testCaseNameUpdated = randomTestDataUtil.getTestCaseName();
+        String testCaseDescriptionUpdated = randomTestDataUtil.getTestCaseDescription();
 
         AddDescriptionBodyModel addDescriptionBody = new AddDescriptionBodyModel();
         addDescriptionBody.setId(testCaseId);
@@ -113,7 +112,7 @@ public class UpdateTestCaseTests extends TestBase {
     @Test
     @DisplayName("Update step of test case")
     void updateStepOfTestCaseTest() {
-        String stepNameUpdated = faker.book().genre();
+        String stepNameUpdated = randomTestDataUtil.getStepName();
 
         AddStepBodyModel.ListStepsData step = new AddStepBodyModel.ListStepsData();
         step.setName(stepNameInitial);

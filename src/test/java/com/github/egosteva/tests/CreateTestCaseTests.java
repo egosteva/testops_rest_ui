@@ -4,7 +4,7 @@ import com.github.egosteva.models.CreateTestCaseBodyModel;
 import com.github.egosteva.models.CreateTestCaseResponseModel;
 import com.github.egosteva.pages.LoginPage;
 import com.github.egosteva.pages.TestCasesPage;
-import com.github.javafaker.Faker;
+import com.github.egosteva.utils.RandomTestDataUtil;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Owner;
 import io.qameta.allure.Story;
@@ -26,13 +26,12 @@ import static io.restassured.RestAssured.given;
 public class CreateTestCaseTests extends TestBase {
     LoginPage loginPage = new LoginPage();
     TestCasesPage testCasesPage = new TestCasesPage();
-    Faker faker = new Faker();
+    RandomTestDataUtil randomTestDataUtil = new RandomTestDataUtil();
+    String testCaseName = randomTestDataUtil.getTestCaseName();
 
     @Test
     @DisplayName("Create test case using only UI")
     void createWithUiOnlyTest() {
-        String testCaseName = faker.name().fullName();
-
         step("Authorize", () -> {
             loginPage.openPage()
                     .setLogin(login)
@@ -54,8 +53,6 @@ public class CreateTestCaseTests extends TestBase {
     @Test
     @DisplayName("Create test case using API and UI")
     void createWithApiAndUiTest() {
-        String testCaseName = faker.name().fullName();
-
         CreateTestCaseBodyModel createTestCaseBody = new CreateTestCaseBodyModel();
         createTestCaseBody.setName(testCaseName);
 
