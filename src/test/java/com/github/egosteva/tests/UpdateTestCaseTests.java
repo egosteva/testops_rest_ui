@@ -58,14 +58,14 @@ public class UpdateTestCaseTests extends TestBase {
         addDescriptionBody.setDescription(testCaseDescriptionInitial);
         addDescriptionBody.setDescriptionHtml(null);
 
-        AddDescriptionResponseModel addDescriptionResponse = step("Add description to testcase", () ->
+        CreateTestCaseResponseModel addDescriptionResponse = step("Add description to testcase", () ->
             given(requestSpec)
                     .body(addDescriptionBody)
                     .when()
                     .patch("/testcase/" + testCaseId)
                     .then()
                     .spec(responseSpec)
-                    .extract().as(AddDescriptionResponseModel.class));
+                    .extract().as(CreateTestCaseResponseModel.class));
 
         step("Open test case editor", () ->
             testCasesPage.openTestCaseEditor(projectId, testCaseId));
